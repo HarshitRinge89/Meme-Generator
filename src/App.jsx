@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState,useEffect } from 'react'
 
 function App() {
   const [meme, setMeme] = useState({
@@ -6,7 +6,21 @@ function App() {
     bottomText:"Walk into Mordor",
     imageUrl:"https://cdn-useast1.kapwing.com/static/templates/one-does-not-simply-meme-template-full-a952427e.webp"
   })
-
+  const[allMemes,setAllMemes] =useState([])
+  useEffect(()=>{
+    fetch("https://api.imgflip.com/get_memes")
+    .then(res =>res.json())
+    .then(data => setAllMemes(data.data.memes))
+  },[])
+  function getMemeImage(){
+    const randomNumber=Math.floor(Math.random()*allMemes.length);
+    const newMemeurl=allMemes[randomNumber].url
+    setMeme(prevMeme=>({
+      ...prevMeme,
+      imageUrl:newMemeurl
+    }))
+    console.log("h");
+  }
   function handleChange(event){
     const {value,name} =event.currentTarget
     setMeme(prevMeme=>({
@@ -40,7 +54,7 @@ function App() {
           value={meme.bottomText}
           />
         </label>
-        <button>Get a new meme image🖼️</button>
+        <button onClick={getMemeImage}>Get a new meme image🖼️</button>
       </div>
       <div className="meme">
         <img src={meme.imageUrl}/>
@@ -48,6 +62,7 @@ function App() {
         <span className='bottom'>{meme.bottomText}</span>
       </div>
     </main>
+    <footer><h4>Note:-Some Memes might not support the text styling format,However the purpose of this project is to learn React.</h4></footer>
     </>
   )
 }
