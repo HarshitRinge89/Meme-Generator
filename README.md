@@ -1,1 +1,2 @@
-Work in Progress React Project that basically superimposes text on classic meme images recieved through API
+A Meme generator that demosntrates ```React.useState()``` and ```React.useState()```
+This project superimposes text on images in a stereotypical way it fetches images with API call to https://imgflip.com and then renders it while allowing user to input text
